@@ -33,8 +33,7 @@ if (playerExperience >= requiredExp) {
   };
 
   const handleClick = async () => {
-    debugger
-    const initialMessage = { role: 'system', content: basemessage };
+    const initialMessage = { role: 'system', content: basemessage + chaine};
 
     try {
       const aiMessage = await getChatCompletion([initialMessage]);
@@ -57,6 +56,7 @@ if (playerExperience >= requiredExp) {
     if (!userInput.trim()) return;
 
     // Ajouter le message de l'utilisateur à l'interface
+
     const userMessage = { role: 'user', content: userInput };
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
