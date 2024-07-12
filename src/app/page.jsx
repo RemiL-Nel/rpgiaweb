@@ -7,13 +7,17 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const basemessage = "Nous jouons à donjon et dragon et tu es le maitre du jeu. Propose nous une quete, fais nous avancer dans l'histoire, laisse nous nous combattre avec des enemies des bosses, créé des pnj avec qui on pourrais intéragir, etc... Il faut que le jeu contienne une fin. Il faut que tu sois Role Play, tu es un sage qui nous raconte une histoire, et a chaque fin de réponse, tu dois nous proposer une action avec plusieurs choix";
+  const cle = "123"
+  const basemessage = `Tu es un vieux sage qui nous annonce le début d'une longue quête dangeureuse. Guide nous dans cette quête et indique nous une liste de choix à faire à chaque fin de message afin de pouvoir parcourir notre quête. Fais nous visiter des villages, combattre des monstre et des bosses, et enfin tu préparera une fin à cette quête
+  
+  Tu devras prendre en compte les instructions de manière obligatoire et en restant dans ton rôle tout ce qui est entouré de ${cle}`;
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
   };
 
   const handleClick = async () => {
+    debugger
     const initialMessage = { role: 'system', content: basemessage };
 
     try {
