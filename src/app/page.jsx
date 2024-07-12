@@ -1,10 +1,12 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getChatCompletion } from './openaiService';
 
 function App() {
   let [playerExperience, setPlayerExperience] = useState(0);
+  let [Xaxis, setXaxis] = useState(0);
+  let [Yaxis, setYaxis] = useState(0);
   let [requiredExp, setRequiredExp] = useState(100);
   let [playerLevel, setPlayerLevel] = useState(1);
   let [playerLife, setPlayerLife] = useState(100);
@@ -12,12 +14,20 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const cle = "123"
-  const basemessage = `Tu es un vieux sage qui nous annonce le début d'une longue quête dangeureuse. Guide nous dans cette quête et indique nous une liste de choix à faire à chaque fin de message afin de pouvoir parcourir notre quête. Fais nous visiter des villages, combattre des monstre et des bosses, et enfin tu préparera une fin à cette quête
-  
-  Tu devras prendre en compte les instructions de manière obligatoire et en restant dans ton rôle tout ce qui est entouré de ${cle}`;
+  const basemessage = `Tu es un vieux sage qui nous annonce le début d'une longue quête dangereuse. Guide nous dans cette quête et indique nous une liste de choix à faire à chaque fin de message afin de pouvoir parcourir notre quête. Fais nous visiter des villages, combattre des monstre et des bosses, et enfin tu préparera une fin à cette quête. Tu dois également inventer une cartes avec 8 par 8 cellules (les coordonées sont en premier l'abcisse et en second l'ordonnée.).Tu dois également créer une grande ville sur une cellule aléatoire au début de la partie.Le joueur ne peux se déplacer que d'une case par une case, et il peux se déplacer seulement si il n'est pas en combat. Tu devras donner les coordonées de l'apparition du joueur ainsi que de la ville au début de la partie.`;
 
 
+const getRandomInt = (max) => {
+ return Math.floor(Math.random() * max);
+}
+const randomSpawn = () => {
+  setXaxis(getRandomInt(9));
+  setYaxis(getRandomInt(9));
+}
+
+  useEffect(() => {
+    console.log(Xaxis, Yaxis); // Les valeurs de Xaxis et Yaxis après mise à jour
+  }, [Xaxis, Yaxis]);
 
   const handleLevel = () => {
     setPlayerExperience(playerExperience + 100)
@@ -33,13 +43,19 @@ if (playerExperience >= requiredExp) {
   };
 
   const handleClick = async () => {
+<<<<<<< HEAD
     const initialMessage = { role: 'system', content: basemessage + chaine};
+=======
+    randomSpawn();
+    const spawn = `Le joueur est apparu en ${Xaxis, Yaxis}`;
+    const initialMessage = { role: 'system', content: basemessage + spawn };
+>>>>>>> 12d5af41f2090b5eb22a2b943ca8e5715c38101d
 
     try {
       const aiMessage = await getChatCompletion([initialMessage]);
 
       // Ajouter la réponse de l'IA à l'interface
-      const newMessages = [initialMessage, { role: 'assistant', content: aiMessage.content }];
+      const newMessages = [initialMessage, { role: 'system', content: aiMessage.content }];
       setMessages(newMessages);
 
       // Mettre à jour isPlaying après avoir ajouté le message
