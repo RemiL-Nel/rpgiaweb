@@ -14,15 +14,20 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const basemessage = `Tu es un vieux sage qui nous annonce le début d'une longue quête dangereuse. Guide nous dans cette quête et indique nous une liste de choix à faire à chaque fin de message afin de pouvoir parcourir notre quête. Fais nous visiter des villages, combattre des monstre et des bosses, et enfin tu préparera une fin à cette quête. Tu dois également inventer une cartes avec 8 par 8 cellules (les coordonées sont en premier l'abcisse et en second l'ordonnée.).Tu dois également créer une grande ville sur une cellule aléatoire au début de la partie.Le joueur ne peux se déplacer que d'une case par une case, et il peux se déplacer seulement si il n'est pas en combat. Tu devras donner les coordonées de l'apparition du joueur ainsi que de la ville au début de la partie.`;
+  const basemessage = `Tu es un vieux sage qui nous annonce le début d'une longue quête dangereuse. Guide nous dans cette quête et indique nous une liste de choix à faire à chaque fin de message afin de pouvoir parcourir notre quête. Fais nous visiter des villages, combattre des monstre et des bosses, et enfin tu préparera une fin à cette quête. Une cartes avec 8 par 8 cellules est à ta disposition, pour chaque cellule tu devras imaginer des lieux(les coordonées sont en premier l'abcisse et en second l'ordonnée.).Tu dois également créer une grande ville sur une cellule aléatoire au début de la partie.Le joueur ne peux se déplacer que d'une case par une case, et il peux se déplacer seulement si il n'est pas en combat. Tu devras donner les coordonées de l'apparition du joueur ainsi que de la ville au début de la partie.`;
 
 
 const getRandomInt = (max) => {
- return Math.floor(Math.random() * max);
+  console.log("llaaa")
+  console.log(Math.floor(Math.random() * 9))
+  return Math.floor(Math.random() * max);
 }
 const randomSpawn = () => {
   setXaxis(getRandomInt(9));
+  console.log(Xaxis)
   setYaxis(getRandomInt(9));
+  console.log(Yaxis)
+
 }
 
   useEffect(() => {
@@ -43,13 +48,11 @@ if (playerExperience >= requiredExp) {
   };
 
   const handleClick = async () => {
-<<<<<<< HEAD
-    const initialMessage = { role: 'system', content: basemessage + chaine};
-=======
+    
     randomSpawn();
     const spawn = `Le joueur est apparu en ${Xaxis, Yaxis}`;
+    
     const initialMessage = { role: 'system', content: basemessage + spawn };
->>>>>>> 12d5af41f2090b5eb22a2b943ca8e5715c38101d
 
     try {
       const aiMessage = await getChatCompletion([initialMessage]);
@@ -57,6 +60,7 @@ if (playerExperience >= requiredExp) {
       // Ajouter la réponse de l'IA à l'interface
       const newMessages = [initialMessage, { role: 'system', content: aiMessage.content }];
       setMessages(newMessages);
+     
 
       // Mettre à jour isPlaying après avoir ajouté le message
       setIsPlaying(true);
@@ -85,6 +89,8 @@ if (playerExperience >= requiredExp) {
       const aiMessages = [...updatedMessages, { role: 'system', content: aiMessage.content }];
       setMessages(aiMessages);
 
+
+
     } catch (error) {
       console.error('Error fetching response:', error);
     }
@@ -97,17 +103,17 @@ if (playerExperience >= requiredExp) {
       ) : (
         <div className="chat-container">
           <div className="chat-box">
-            {messages.map((message, index) => (
+            {messages.slice(1).map((message, index) => (
               <div key={index} className={`message ${message.role}-message`}>
                 <span className="message-content">{message.content}</span>
               </div>
             ))}
           </div>
-         {isPlaying ? ( <div>
-<h1>You are level {playerLevel} with {playerExperience} exp points. ({requiredExp} needed to level up)</h1>
-<h2>{playerLife} HP.</h2>
-<h3>{playerGold} golds.</h3>
-          </div>) : null}
+         <div>
+          <h1>You are level {playerLevel} with {playerExperience} exp points. ({requiredExp} needed to level up)</h1>
+          <h2>{playerLife} HP.</h2>
+          <h3>{playerGold} golds.</h3>
+          </div>
           <form onSubmit={handleSubmit} className="input-container">
             <input
               type="text"
