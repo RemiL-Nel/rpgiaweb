@@ -14,13 +14,13 @@ function App() {
   };
 
   const handleClick = async () => {
-    
-    
+    const initialMessage = { role: 'system', content: basemessage };
+
     try {
-      const aiMessage = await getChatCompletion(basemessage);
+      const aiMessage = await getChatCompletion([initialMessage]);
 
       // Ajouter la réponse de l'IA à l'interface
-      const newMessages = [{ role: 'ai', content: aiMessage.content }];
+      const newMessages = [initialMessage, { role: 'assistant', content: aiMessage.content }];
       setMessages(newMessages);
 
       // Mettre à jour isPlaying après avoir ajouté le message
@@ -36,15 +36,16 @@ function App() {
     if (!userInput.trim()) return;
 
     // Ajouter le message de l'utilisateur à l'interface
-    const newMessages = [...messages, { role: 'user', content: userInput }];
-    setMessages(newMessages);
+    const userMessage = { role: 'user', content: userInput };
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setUserInput('');
 
     try {
-      const aiMessage = await getChatCompletion(userInput);
+      const aiMessage = await getChatCompletion(updatedMessages);
 
       // Ajouter la réponse de l'IA à l'interface
-      const aiMessages = [...newMessages, { role: 'ai', content: aiMessage.content }];
+      const aiMessages = [...updatedMessages, { role: 'assistant', content: aiMessage.content }];
       setMessages(aiMessages);
 
     } catch (error) {
