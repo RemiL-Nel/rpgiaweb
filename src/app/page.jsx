@@ -4,11 +4,26 @@ import React, { useState } from 'react';
 import { getChatCompletion } from './openaiService';
 
 function App() {
+  let [playerExperience, setPlayerExperience] = useState(0);
+  let [requiredExp, setRequiredExp] = useState(100);
+  let [playerLevel, setPlayerLevel] = useState(1);
+  let [playerLife, setPlayerLife] = useState(100);
+  let [playerGold, setPlayerGold] = useState(0);
   const [userInput, setUserInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const basemessage = "Nous jouons à donjon et dragon et tu es le maitre du jeu. Propose nous une quete, fais nous avancer dans l'histoire, laisse nous nous combattre avec des enemies des bosses, créé des pnj avec qui on pourrais intéragir, etc... Il faut que le jeu contienne une fin. Il faut que tu sois Role Play, tu es un sage qui nous raconte une histoire, et a chaque fin de réponse, tu dois nous proposer une action avec plusieurs choix";
+  const basemessage = "";
 
+
+  const handleLevel = () => {
+    setPlayerExperience(playerExperience + 100)
+if (playerExperience >= requiredExp) {
+  setPlayerLevel(playerLevel + 1);
+  setPlayerLife(playerLife + (playerLevel * 10))
+  setPlayerExperience(0)
+  setRequiredExp(requiredExp * playerLevel);
+}
+  }
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
   };
@@ -31,6 +46,7 @@ function App() {
   };
 
   const handleSubmit = async (e) => {
+        handleLevel();
     e.preventDefault();
 
     if (!userInput.trim()) return;
@@ -45,7 +61,7 @@ function App() {
       const aiMessage = await getChatCompletion(updatedMessages);
 
       // Ajouter la réponse de l'IA à l'interface
-      const aiMessages = [...updatedMessages, { role: 'assistant', content: aiMessage.content }];
+      const aiMessages = [...updatedMessages, { role: 'system', content: aiMessage.content }];
       setMessages(aiMessages);
 
     } catch (error) {
@@ -66,6 +82,11 @@ function App() {
               </div>
             ))}
           </div>
+         {isPlaying ? ( <div>
+<h1>You are level {playerLevel} with {playerExperience} exp points. ({requiredExp} needed to level up)</h1>
+<h2>{playerLife} HP.</h2>
+<h3>{playerGold} golds.</h3>
+          </div>) : null}
           <form onSubmit={handleSubmit} className="input-container">
             <input
               type="text"
