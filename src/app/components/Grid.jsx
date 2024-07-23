@@ -1,18 +1,21 @@
 import React from 'react';
 import styles from '../css/grid.module.css';
 
-const Grid = ({ points }) => {
-  const size = 9; // 4 + 4 + 1 pour inclure le zéro
-
+const Grid = ({ playerPosition, cityPosition }) => {
   const renderGrid = () => {
     let rows = [];
     for (let y = 4; y >= -4; y--) {
       let cells = [];
       for (let x = -4; x <= 4; x++) {
-        const point = points.find(p => p.x === x && p.y === y);
+        let content = null;
+        if (playerPosition.x === x && playerPosition.y === y) {
+          content = <div className={styles.point}></div>;
+        } else if (cityPosition && cityPosition.x === x && cityPosition.y === y) {
+          content = <div className={styles.city}></div>; // Icône de ville
+        }
         cells.push(
           <div className={styles.cell} key={`${x},${y}`}>
-            {point && <div className={styles.point}></div>}
+            {content}
           </div>
         );
       }

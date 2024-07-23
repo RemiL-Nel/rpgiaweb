@@ -7,6 +7,7 @@ import Grid from './components/Grid.jsx'
 function App() {
   let [playerExperience, setPlayerExperience] = useState(0);
   let [playerPosition, setPlayerPosition] = useState({x: 0, y:0})
+  let [cityPosition, setCityPosition] = useState({ x: 0, y: 0 });
   let [requiredExp, setRequiredExp] = useState(100);
   let [playerLevel, setPlayerLevel] = useState(1);
   let [playerLife, setPlayerLife] = useState(100);
@@ -23,6 +24,10 @@ function App() {
 
   const randomSpawn = () => {
     setPlayerPosition({
+      x: getRandomInt(4),
+      y: getRandomInt(4),
+    });
+        setCityPosition({
       x: getRandomInt(4),
       y: getRandomInt(4),
     });
@@ -129,7 +134,7 @@ if (playerExperience >= requiredExp) {
           </form>
           <div>
       <h1>Grille avec des Points</h1>
-      <Grid points={[playerPosition]} />
+      <Grid playerPosition={playerPosition} cityPosition={cityPosition} />
        <div>
         <button onClick={() => movePlayer('up')}>↑</button>
         <button onClick={() => movePlayer('left')}>←</button>
