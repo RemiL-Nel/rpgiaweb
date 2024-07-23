@@ -28,6 +28,18 @@ function App() {
     });
   };
 
+    const movePlayer = (direction) => {
+    setPlayerPosition(prevPosition => {
+      let newX = prevPosition.x;
+      let newY = prevPosition.y;
+      if (direction === 'up' && newY < 4) newY += 1;
+      if (direction === 'down' && newY > -4) newY -= 1;
+      if (direction === 'left' && newX > -4) newX -= 1;
+      if (direction === 'right' && newX < 4) newX += 1;
+      return { x: newX, y: newY };
+    });
+  };
+
 
   useEffect(() => {
   }, [playerPosition]);
@@ -47,7 +59,7 @@ if (playerExperience >= requiredExp) {
 
   const handleClick = async () => {
     randomSpawn();
-    const initialMessage = { role: 'system', content: basemessage + spawn };
+    const initialMessage = { role: 'system', content: basemessage };
 
     try {
       const aiMessage = await getChatCompletion([initialMessage]);
@@ -118,6 +130,12 @@ if (playerExperience >= requiredExp) {
           <div>
       <h1>Grille avec des Points</h1>
       <Grid points={[playerPosition]} />
+       <div>
+        <button onClick={() => movePlayer('up')}>↑</button>
+        <button onClick={() => movePlayer('left')}>←</button>
+        <button onClick={() => movePlayer('down')}>↓</button>
+        <button onClick={() => movePlayer('right')}>→</button>
+      </div>
     </div>
         </div>
       )}
