@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { getChatCompletion } from './openaiService';
+import Grid from './components/Grid.jsx'
 
 function App() {
   let [playerExperience, setPlayerExperience] = useState(0);
@@ -16,6 +17,12 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const basemessage = `Tu es un vieux sage qui nous annonce le début d'une longue quête dangereuse. Guide nous dans cette quête et indique nous une liste de choix à faire à chaque fin de message afin de pouvoir parcourir notre quête. Fais nous visiter des villages, combattre des monstre et des bosses, et enfin tu préparera une fin à cette quête. Tu dois également inventer une cartes avec 8 par 8 cellules (les coordonées sont en premier l'abcisse et en second l'ordonnée.).Tu dois également créer une grande ville sur une cellule aléatoire au début de la partie.Le joueur ne peux se déplacer que d'une case par une case, et il peux se déplacer seulement si il n'est pas en combat. Tu devras donner les coordonées de l'apparition du joueur ainsi que de la ville au début de la partie.`;
 
+  const points = [
+    { x: 0, y: 0 },
+    { x: 2, y: 3 },
+    { x: -1, y: -2 },
+    // Ajoutez d'autres points ici
+  ];
 
 const getRandomInt = (max) => {
  return Math.floor(Math.random() * max);
@@ -113,6 +120,10 @@ if (playerExperience >= requiredExp) {
             />
             <button type="submit" className="send-btn">Envoyer</button>
           </form>
+          <div>
+      <h1>Grille avec des Points</h1>
+      <Grid points={points} />
+    </div>
         </div>
       )}
     </div>
